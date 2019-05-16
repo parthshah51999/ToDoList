@@ -34,9 +34,7 @@ class ToDoList extends React.Component {
           <button onClick={this.addItem} type="button" className="btn btn-primary">Add</button>
         </div>
         <div id="TaskList">
-          <ul>
-            {this.displayList()}
-          </ul>
+          <ul>{this.displayList()}</ul>
         </div>
       </div>
     );
