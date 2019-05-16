@@ -8,13 +8,21 @@ class ToDoList extends React.Component {
         value: ''
       };
       this.addItem = this.addItem.bind(this);
+      this.displayList = this.displayList.bind(this);
   }
 
   addItem() {
     let inputText = this.state.value;
-    console.log(inputText);
-    this.state.items = [...this.state.items, {text: inputText, taskState: this.state.taskState}];
+    this.state.items = [...this.state.items, inputText];
     this.state.value = '';
+    this.setState({
+      value : '',
+      items : this.state.items
+    });
+  }
+
+  displayList(){
+    return (this.state.items.slice(0).reverse().map((item,i) => <li key={i}>{item}</li>));
   }
 
   render() {
@@ -26,6 +34,9 @@ class ToDoList extends React.Component {
           <button onClick={this.addItem} type="button" className="btn btn-primary">Add</button>
         </div>
         <div id="TaskList">
+          <ul>
+            {this.displayList()}
+          </ul>
         </div>
       </div>
     );
