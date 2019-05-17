@@ -9,24 +9,40 @@ class ToDoList extends React.Component {
       };
       this.addItem = this.addItem.bind(this);
       this.displayList = this.displayList.bind(this);
+      this.removeItem = this.removeItem.bind(this);
   }
 
   addItem() {
     let inputText = this.state.value; //object destructring
-    this.state.items = [...this.state.items, inputText];
+    let newItems = [...this.state.items, inputText];
     //this.state.value = '';  dont change state variables directly... use setState instead
     this.setState({
       value : '',
-      items : this.state.items
+      items : newItems
+    });
+  }
+
+  removeItem(id) {
+    let newItems = this.state.items.filter((item, i) => i !== id);
+    this.setState({
+      items : newItems
     });
   }
 
   displayList() {
-    return (<ul>{this.state.items.slice(0).reverse().map((item, i) => <li key={i}>{item}</li>)}</ul>);
+    return (<ul>{this.state.items.map((item, i) => {
+      return (
+        <li key={i}>{item}
+        <button
+          onClick={this.removeItem.bind(this, i)}
+          type="button"
+          className="btn btn-primary">Remove
+        </button>
+      </li>);
+    })}</ul>);
   }
 
   render() { //render is a react component method.
-    let items = this.state.items; // use object destructring
     return (
       <div>
         <div id="addTask">
@@ -35,7 +51,7 @@ class ToDoList extends React.Component {
             size="40"
             type="text"
             placeholder="Enter Task"
-            onChange={e => this.setState({ value: e.target.value })}
+            onChange={e => this.setState({value: e.target.value})}
             value={this.state.value}
           />
           <button
