@@ -7,11 +7,15 @@ class ToDoList extends React.Component {
         items: [],
         value: '',
         isUpdate: false,
-        id: 9999
+        id: 9999,
+        searchValue : '',
+        searchResults: []
       };
       this.addItem = this.addItem.bind(this);
       this.displayList = this.displayList.bind(this);
       this.removeItem = this.removeItem.bind(this);
+      this.onChangeFunctions = this.onChangeFunctions.bind(this);
+      this.doRenderSearchBar =  this.doRenderSearchBar.bind(this);
   }
 
   editItem(id) {
@@ -24,25 +28,50 @@ class ToDoList extends React.Component {
   addItem() {
     let inputText = this.state.value; //object destructring
     let newItems = this.state.items;
-    {this.state.isUpdate ? newItems[this.state.id] = inputText : newItems = [...this.state.items, inputText]};
+    let searchItems = this.state.searchResults;
+    let isCheck = false;
+
+    if(this.state.isUpdate) {
+      newItems = newItems.map((value, i) => {
+        if(value === searchItems[this.state.id] && !isCheck) {
+          isCheck = true;
+          return inputText;
+        }
+        return value;
+      });
+      searchItems[this.state.id] = inputText;
+    } else {
+      newItems = [...this.state.items, inputText]
+      searchItems = [...newItems]
+    }
     //this.state.value = '';  dont change state variables directly... use setState instead
     this.setState({
       value : '',
       items : newItems,
       isUpdate : false,
-      id : 9999
+      id : 9999,
+      searchResults: searchItems
     });
   }
 
   removeItem(id) {
-    let newItems = this.state.items.filter((item, i) => i !== id);
+    let isCheck = false;
+    let newItems = this.state.items.filter((item, i) => {
+      if(item === this.state.searchResults[id] && !isCheck) {
+        isCheck = true;
+      } else {
+        return item;
+      }
+    });
+    let searchItems = this.state.searchResults.filter((item, i) => i !== id);
     this.setState({
-      items : newItems
+      items : newItems,
+      searchResults: searchItems
     });
   }
 
   displayList() {
-    return (<ul>{this.state.items.map((item, i) => {
+    return (<ul>{this.state.searchResults.map((item, i) => {
       return (
         <li key={i}>{item}
         <button
@@ -71,6 +100,35 @@ class ToDoList extends React.Component {
     );
   }
 
+  doRenderSearchBar() {
+    return (
+      <input
+      className="input"
+      size="40"
+      type="text"
+      placeholder="Search..."
+      onChange={this.onChangeFunctions('search')}
+      value={this.state.searchValue}
+    />
+    );
+  }
+
+  onChangeFunctions(action) {
+    return (
+      action === 'search' ?
+      e => {
+        let searchResults = null;
+        searchResults = this.state.items.filter((value, i) => value.includes(e.target.value));
+        return this.setState(
+          {
+            searchValue: e.target.value,
+            searchResults: searchResults
+        })
+      } :
+      e => this.setState({value: e.target.value})
+    )
+  }
+
   render() { //render is a react component method.
     return (
       <div>
@@ -80,10 +138,14 @@ class ToDoList extends React.Component {
             size="40"
             type="text"
             placeholder="Enter Task"
-            onChange={e => this.setState({value: e.target.value})}
+            onChange={this.onChangeFunctions()}
             value={this.state.value}
           />
           {this.doRenderAddOrUpdateButton()}
+        </div>
+        <br/>
+        <div id="searchBar">
+          {this.doRenderSearchBar()}
         </div>
         <div id="taskList">
           {this.displayList()}
