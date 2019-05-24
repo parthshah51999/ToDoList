@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ToDoItem from './ToDoItem';
 import SearchBar from './SearchBar';
 
@@ -126,5 +127,17 @@ class ToDoList extends React.Component {
     );
   }
 }
+
+ToDoItem.propTypes = {
+  searchResults: PropTypes.array,
+  removeItem: PropTypes.func.isRequired,
+  editItem: PropTypes.func.isRequired
+};
+
+SearchBar.defaultProps = {
+  taskItems: [],
+  searchValue: '',
+  onChangeSearchFunction: {}
+};
 
 export default ToDoList;
