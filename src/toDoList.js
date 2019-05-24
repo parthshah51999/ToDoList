@@ -1,4 +1,6 @@
 import React from 'react';
+import ToDoItem from './ToDoItem';
+import SearchBar from './SearchBar';
 
 class ToDoList extends React.Component {
   constructor() {
@@ -7,21 +9,20 @@ class ToDoList extends React.Component {
         items: [],
         value: '',
         isUpdate: false,
-        id: 9999,
+        id: Math.random(),
         searchValue : '',
         searchResults: []
       };
       this.addItem = this.addItem.bind(this);
-      this.displayList = this.displayList.bind(this);
       this.removeItem = this.removeItem.bind(this);
-      this.onChangeFunctions = this.onChangeFunctions.bind(this);
-      this.doRenderSearchBar =  this.doRenderSearchBar.bind(this);
+      this.onChangeInputFunction = this.onChangeInputFunction.bind(this);
+      this.onChangeSearchFunction = this.onChangeSearchFunction.bind(this);
   }
 
   editItem(id) {
     this.setState({
       isUpdate : true,
-      id : id
+      id
     });
   }
 
@@ -70,27 +71,9 @@ class ToDoList extends React.Component {
     });
   }
 
-  displayList() {
-    return (<ul>{this.state.searchResults.map((item, i) => {
-      return (
-        <li key={i}>{item}
-        <button
-          onClick={this.removeItem.bind(this, i)}
-          type="button"
-          className="btn btn-primary">Remove
-        </button>
-        <button
-          onClick={this.editItem.bind(this, i)}
-          type="button"
-          className="btn btn-primary">Edit
-        </button>
-      </li>);
-    })}</ul>);
-  }
-
   doRenderAddOrUpdateButton() {
-    let buttonText = "Add";
-    if(this.state.isUpdate){buttonText = "Edit";}
+    let buttonText = 'Add';
+    if(this.state.isUpdate) {buttonText = 'Edit';}
     return (
       <button
         onClick={this.addItem}
@@ -100,33 +83,19 @@ class ToDoList extends React.Component {
     );
   }
 
-  doRenderSearchBar() {
-    return (
-      <input
-      className="input"
-      size="40"
-      type="text"
-      placeholder="Search..."
-      onChange={this.onChangeFunctions('search')}
-      value={this.state.searchValue}
-    />
-    );
+  onChangeInputFunction() {
+    return e => this.setState({value: e.target.value});
   }
 
-  onChangeFunctions(action) {
-    return (
-      action === 'search' ?
-      e => {
-        let searchResults = null;
-        searchResults = this.state.items.filter((value, i) => value.includes(e.target.value));
-        return this.setState(
+  onChangeSearchFunction() {
+      return e => {
+        let searchResults = this.state.items.filter((value, i) => value.indexOf(e.target.value) > -1);
+        this.setState(
           {
             searchValue: e.target.value,
             searchResults: searchResults
         })
-      } :
-      e => this.setState({value: e.target.value})
-    )
+      }
   }
 
   render() { //render is a react component method.
@@ -135,21 +104,24 @@ class ToDoList extends React.Component {
         <div id="addTask">
           <input
             className="input"
-            size="40"
             type="text"
             placeholder="Enter Task"
-            onChange={this.onChangeFunctions()}
+            onChange={this.onChangeInputFunction()}
             value={this.state.value}
           />
           {this.doRenderAddOrUpdateButton()}
         </div>
         <br/>
-        <div id="searchBar">
-          {this.doRenderSearchBar()}
-        </div>
-        <div id="taskList">
-          {this.displayList()}
-        </div>
+        <SearchBar
+          taskItems={this.state.items}
+          searchValue={this.state.searchValue}
+          onChangeSearchFunction={this.onChangeSearchFunction}
+        />
+        <ToDoItem
+          searchResults={this.state.searchResults}
+          removeItem={this.removeItem}
+          editItem={this.editItem}
+        />
       </div>
     );
   }
