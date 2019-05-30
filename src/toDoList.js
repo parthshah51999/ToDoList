@@ -16,6 +16,7 @@ class ToDoList extends React.Component {
       };
       this.addItem = this.addItem.bind(this);
       this.removeItem = this.removeItem.bind(this);
+      this.editItem = this.editItem.bind(this);
       this.onChangeInputFunction = this.onChangeInputFunction.bind(this);
       this.onChangeSearchFunction = this.onChangeSearchFunction.bind(this);
   }
@@ -132,6 +133,18 @@ ToDoItem.propTypes = {
   searchResults: PropTypes.array,
   removeItem: PropTypes.func.isRequired,
   editItem: PropTypes.func.isRequired
+};
+
+ToDoItem.defaultProps = {
+  searchResults: [],
+  removeItem: {},
+  editItem: {}
+}
+
+SearchBar.propTypes = {
+  taskItems: PropTypes.array,
+  searchValue: PropTypes.string,
+  onChangeSearchFunction: PropTypes.func.isRequired
 };
 
 SearchBar.defaultProps = {
