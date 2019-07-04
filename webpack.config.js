@@ -16,6 +16,9 @@ module.exports = () => {
     resolve: {
       extensions: ['*', '.js', '.css'],
     },
+    devtool: (() => {
+      return 'cheap-module-eval-source-map'
+    })(),
     module: {
         rules: [
           {
