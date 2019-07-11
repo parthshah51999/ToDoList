@@ -1,0 +1,60 @@
+.taskWrapper {
+  width: 800px;
+  margin: 0 auto;
+}
+
+.addTask {
+  float: left;
+}
+
+.addTask input {
+  padding: 4px 0 6px;
+  float: left;
+  width: 500px;
+}
+
+.addTask button {
+  margin-left: 20px;
+  float: left;
+}
+
+.taskList {
+  width: 876px;
+  margin: 30px auto 0;
+  font-size: 18px;
+}
+
+.taskList p {
+  float: left;
+  width: 500px;
+  margin: 0;
+  padding: 6.5px 0;
+  overflow-wrap: break-word;
+}
+
+.taskList button {
+  float: left;
+  margin: 2px 0 2px 20px;
+}
+
+.searchText {
+  margin-left: 50px;
+  padding: 5px 0;
+  float: left;
+}
+
+body {
+  background: #d9a7c7;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #fffcdc, #d9a7c7);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #fffcdc, #d9a7c7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+li {
+  list-style: none;
+}
+
+h1 {
+  text-align: center;
+  padding: 10px 0 50px;
+  margin: 50px 0 0;
+}

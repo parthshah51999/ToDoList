@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ToDoItem from './ToDoItem';
 import SearchBar from './SearchBar';
+import './css/style'
 
 class ToDoList extends React.Component {
   constructor() {
@@ -34,6 +35,10 @@ class ToDoList extends React.Component {
     let searchItems = this.state.searchResults;
     let isCheck = false;
 
+    if (inputText === '') {
+      return alert('Please enter the to do task.')
+    }
+
     if(this.state.isUpdate) {
       newItems = newItems.map((value, i) => {
         if(value === searchItems[this.state.id] && !isCheck) {
@@ -52,7 +57,7 @@ class ToDoList extends React.Component {
       value : '',
       items : newItems,
       isUpdate : false,
-      id : 9999,
+      id : Math.random(),
       searchResults: searchItems
     });
   }
@@ -77,11 +82,11 @@ class ToDoList extends React.Component {
     let buttonText = 'Add';
     if(this.state.isUpdate) {buttonText = 'Edit';}
     return (
-      <button
-        onClick={this.addItem}
-        type="button"
-        className="btn btn-primary">{buttonText}
-      </button>
+        <button
+          onClick={this.addItem}
+          type="button"
+          className={this.state.isUpdate ? "btn btn-danger" : "btn btn-primary"}>{buttonText}
+        </button>
     );
   }
 
@@ -102,23 +107,25 @@ class ToDoList extends React.Component {
 
   render() { //render is a react component method.
     return (
-      <div>
-        <div id="addTask">
-          <input
-            className="input"
-            type="text"
-            placeholder="Enter Task"
-            onChange={this.onChangeInputFunction()}
-            value={this.state.value}
+      <div className="toDoWrapper">
+        <h1 className="display-4">To Do Application</h1>
+        <div className="taskWrapper clearfix">
+          <div className="addTask clearfix">
+            <input
+              className="input"
+              type="text"
+              placeholder="Enter Task"
+              onChange={this.onChangeInputFunction()}
+              value={this.state.value}
+            />
+            {this.doRenderAddOrUpdateButton()}
+          </div>
+          <SearchBar
+            taskItems={this.state.items}
+            searchValue={this.state.searchValue}
+            onChangeSearchFunction={this.onChangeSearchFunction}
           />
-          {this.doRenderAddOrUpdateButton()}
         </div>
-        <br/>
-        <SearchBar
-          taskItems={this.state.items}
-          searchValue={this.state.searchValue}
-          onChangeSearchFunction={this.onChangeSearchFunction}
-        />
         <ToDoItem
           searchResults={this.state.searchResults}
           removeItem={this.removeItem}

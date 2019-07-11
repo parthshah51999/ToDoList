@@ -9,7 +9,7 @@ export default class SearchBar extends React.Component {
     return (
         this.props.taskItems.length > 0 ?
         <input
-        className="input"
+        className="searchText"
         type="text"
         placeholder="Search..."
         onChange={this.onChangeSearchFunction()}

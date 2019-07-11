@@ -12,11 +12,12 @@ export default class ToDoItem extends React.Component {
   render() {
     return (
       <div>
-        <ul id="taskList">
+        <ul className="taskList">
           {
             this.props.searchResults.map((item, i) => {
               return (
-                <li key={i}>{item}
+                <li key={i} className="clearfix">
+                <p>{item}</p>
                 <button
                   onClick={this.removeItem.bind(this, i)}
                   type="button"
