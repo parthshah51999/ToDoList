@@ -6,14 +6,14 @@ import './css/style'
 
 class ToDoList extends React.Component {
   constructor() {
-      super(); //it calls react Component constructor.
-      this.state = { //state is a plain js object..init only in constructor
+      super(); // it calls react Component constructor.
+      this.state = { // state is a plain js object..init only in constructor
         items: [],
         value: '',
         isUpdate: false,
         id: Math.random(),
-        searchValue : '',
-        searchResults: []
+        searchValue: '',
+        searchResults: [],
       };
       this.addItem = this.addItem.bind(this);
       this.removeItem = this.removeItem.bind(this);
@@ -24,41 +24,38 @@ class ToDoList extends React.Component {
 
   editItem(id) {
     this.setState({
-      isUpdate : true,
+      isUpdate: true,
       id
     });
   }
 
   addItem() {
-    let inputText = this.state.value; //object destructring
-    let newItems = this.state.items;
-    let searchItems = this.state.searchResults;
+    let { items, searchResults } = this.state; // object destructring
     let isCheck = false;
-
     if (inputText === '') {
       return alert('Please enter the to do task.')
     }
-
-    if(this.state.isUpdate) {
-      newItems = newItems.map((value, i) => {
-        if(value === searchItems[this.state.id] && !isCheck) {
+    const { value, isUpdate, id } = this.state;
+    if (isUpdate) {
+      items = items.map((searchValue, i) => {
+        if (searchValue === searchResults[id] && !isCheck) {
           isCheck = true;
-          return inputText;
+          return value;
         }
-        return value;
+        return searchValue;
       });
-      searchItems[this.state.id] = inputText;
+      searchResults[id] = value;
     } else {
-      newItems = [...this.state.items, inputText]
-      searchItems = [...newItems]
+      items = [...items, value];
+      searchResults = [...items];
     }
-    //this.state.value = '';  dont change state variables directly... use setState instead
+    // this.state.value = '';  dont change state variables directly... use setState instead
     this.setState({
-      value : '',
-      items : newItems,
-      isUpdate : false,
-      id : Math.random(),
-      searchResults: searchItems
+      searchResults,
+      items,
+      value: '',
+      isUpdate: false,
+      id: 9999
     });
   }
 
@@ -73,14 +70,14 @@ class ToDoList extends React.Component {
     });
     let searchItems = this.state.searchResults.filter((item, i) => i !== id);
     this.setState({
-      items : newItems,
-      searchResults: searchItems
+      items: newItems,
+      searchResults: searchItems,
     });
   }
 
   doRenderAddOrUpdateButton() {
     let buttonText = 'Add';
-    if(this.state.isUpdate) {buttonText = 'Edit';}
+    if (this.state.isUpdate) { buttonText = 'Edit'; }
     return (
         <button
           onClick={this.addItem}
@@ -91,7 +88,7 @@ class ToDoList extends React.Component {
   }
 
   onChangeInputFunction() {
-    return e => this.setState({value: e.target.value});
+    return e => this.setState({ value: e.target.value });
   }
 
   onChangeSearchFunction() {
@@ -101,11 +98,12 @@ class ToDoList extends React.Component {
           {
             searchValue: e.target.value,
             searchResults: searchResults
-        })
-      }
+        }
+      )
+    };
   }
 
-  render() { //render is a react component method.
+  render() { // render is a react component method.
     return (
       <div className="toDoWrapper">
         <h1 className="display-4">To Do Application</h1>
@@ -139,25 +137,25 @@ class ToDoList extends React.Component {
 ToDoItem.propTypes = {
   searchResults: PropTypes.array,
   removeItem: PropTypes.func.isRequired,
-  editItem: PropTypes.func.isRequired
+  editItem: PropTypes.func.isRequired,
 };
 
 ToDoItem.defaultProps = {
   searchResults: [],
   removeItem: {},
-  editItem: {}
-}
+  editItem: {},
+};
 
 SearchBar.propTypes = {
   taskItems: PropTypes.array,
   searchValue: PropTypes.string,
-  onChangeSearchFunction: PropTypes.func.isRequired
+  onChangeSearchFunction: PropTypes.func.isRequired,
 };
 
 SearchBar.defaultProps = {
   taskItems: [],
   searchValue: '',
-  onChangeSearchFunction: {}
+  onChangeSearchFunction: {},
 };
 
 export default ToDoList;

@@ -2,21 +2,24 @@ import React from 'react';
 
 export default class ToDoItem extends React.Component {
   removeItem(id) {
-    return this.props.removeItem(id);
+    const { removeItem } = this.props;
+    return removeItem(id);
   }
 
   editItem(id) {
-    return this.props.editItem(id);
+    const { editItem } = this.props;
+    return editItem(id);
   }
 
   render() {
+    const { searchResults } = this.props;
     return (
       this.props.searchResults.length > 0 ?
         <div className="Table">
           <div className="CellHeadings taskcol">Tasks</div>
           <div className="CellHeadings">Actions</div>
           {
-            this.props.searchResults.map((item, i) => {
+            searchResults.map((item, i) => {
               return (
                 <div key={i} className="Row">
                   <div className="Cell taskcol"><p>{item}</p></div>
