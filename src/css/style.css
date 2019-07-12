@@ -1,6 +1,7 @@
 .taskWrapper {
   width: 800px;
   margin: 0 auto;
+  margin-bottom: 10px;
 }
 
 .addTask {
@@ -16,25 +17,6 @@
 .addTask button {
   margin-left: 20px;
   float: left;
-}
-
-.taskList {
-  width: 876px;
-  margin: 30px auto 0;
-  font-size: 18px;
-}
-
-.taskList p {
-  float: left;
-  width: 500px;
-  margin: 0;
-  padding: 6.5px 0;
-  overflow-wrap: break-word;
-}
-
-.taskList button {
-  float: left;
-  margin: 2px 0 2px 20px;
 }
 
 .searchText {
@@ -57,4 +39,50 @@ h1 {
   text-align: center;
   padding: 10px 0 50px;
   margin: 50px 0 0;
+}
+
+/* TABLE CSS */
+.Table {
+  display: table;
+  table-layout: fixed;
+  margin-left: auto;
+  margin-right: auto;
+  width: 800px;
+}
+
+.Row {
+  display: table-row;
+}
+
+.Cell {
+  display: table-cell;
+  border-width: thin;
+  border-top: 1px solid #eee;
+  background: #fff;
+  padding : 5px 10px;
+  min-width: 232px;
+  max-width: 150;
+  font-size: 20px;
+  color: #a9a9a9;
+  overflow-wrap: break-word;
+}
+
+.Cell button {
+  margin-right: 5px;
+}
+
+.CellHeadings {
+  display: table-cell;
+  border-width: thin;
+  border-top: 1px solid #eee;
+  background: black;
+  padding : 14px 10px;
+  min-width: 232px;
+  max-width: 150;
+  font-size: 15px;
+  color: #a9a9a9;
+}
+
+.taskcol {
+  width: 80%;
 }
