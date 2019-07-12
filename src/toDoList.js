@@ -32,10 +32,10 @@ class ToDoList extends React.Component {
   addItem() {
     let { items, searchResults } = this.state; // object destructring
     let isCheck = false;
-    if (inputText === '') {
+    const { value, isUpdate, id } = this.state;
+    if (value === '') {
       return alert('Please enter the to do task.')
     }
-    const { value, isUpdate, id } = this.state;
     if (isUpdate) {
       items = items.map((searchValue, i) => {
         if (searchValue === searchResults[id] && !isCheck) {
