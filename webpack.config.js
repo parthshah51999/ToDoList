@@ -14,7 +14,7 @@ module.exports = () => {
      }),
   ],
     resolve: {
-      extensions: ['*', '.js', '.css'],
+      extensions: ['*', '.js', '.css'],  
     },
     devtool: (() => {
       return 'cheap-module-eval-source-map'
@@ -22,9 +22,13 @@ module.exports = () => {
     module: {
         rules: [
           {
-            test: /\.js$/,
+          test: /\.js$/,
             loader: 'babel-loader',
             exclude: /node_modules/,
+          },
+          {
+            test: /\.css$/,
+            use: [ 'style-loader', 'css-loader' ],
           },
         ],
       },
