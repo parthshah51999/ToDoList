@@ -1,5 +1,5 @@
-import ReactDOM from 'react-dom';
-import React from 'react';
-import ToDoList from './toDoList';
+import ReactDOM from "react-dom";
+import React from "react";
+import ToDoApp from "./ToDoApp";
 
-ReactDOM.render(<ToDoList />, document.getElementById('app'));
+ReactDOM.render(<ToDoApp />, document.getElementById("app"));

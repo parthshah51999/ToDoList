@@ -1,85 +1,29 @@
-/* .addTask {
-  float: left;
+/* Reset bootstrap */
+
+.btn:focus {
+  outline: none;
+  box-shadow: none;
 }
 
-.addTask input {
-  padding: 4px 0 6px;
-  float: left;
-  width: 500px;
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
-.addTask button {
-  margin-left: 20px;
-  float: left;
-} */
-
-/* .searchText {
-  margin-left: 50px;
-  padding: 5px 0;
-  float: left;
-} */
+/* Element styles */
 
 body {
   background: #d3d3d3;
 }
 
-li {
-  list-style: none;
+input {
+  width: 100%;
+  padding: 6px 15px;
+  border: 1px solid #d3d3d3;
+  border-radius: 10px;
 }
 
-h1 {
-  text-align: center;
-  padding: 10px 0 50px;
-  margin: 50px 0 0;
-}
-
-/* TABLE CSS */
-.Table {
-  display: table;
-  table-layout: fixed;
-  margin-left: auto;
-  margin-right: auto;
-  width: 800px;
-}
-
-.Row {
-  display: table-row;
-}
-
-.Cell {
-  display: table-cell;
-  border-width: thin;
-  border-top: 1px solid #eee;
-  background: #fff;
-  padding: 5px 10px;
-  min-width: 232px;
-  max-width: 150;
-  font-size: 20px;
-  color: #a9a9a9;
-  overflow-wrap: break-word;
-}
-
-.Cell button {
-  margin-right: 5px;
-}
-
-.CellHeadings {
-  display: table-cell;
-  border-width: thin;
-  border-top: 1px solid #eee;
-  background: black;
-  padding: 14px 10px;
-  min-width: 232px;
-  max-width: 150;
-  font-size: 15px;
-  color: #a9a9a9;
-}
-
-.taskcol {
-  width: 80%;
-}
-
-/* New styles */
+/* Class styles */
 
 .wrapper {
   height: 100vh;
@@ -96,7 +40,9 @@ h1 {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   height: 70vh;
-  min-width: 40vw;
+  width: 40vw;
+  max-width: 40vw;
+  overflow: hidden;
 }
 
 .todo-wrapper:hover {
@@ -104,7 +50,7 @@ h1 {
 }
 
 .todo-header {
-  border-bottom: 1px solid #a8a8a8;
+  border-bottom: 1px solid #d3d3d3;
   padding-bottom: 10px;
   margin: 0;
 }
@@ -117,13 +63,6 @@ h1 {
   display: flex;
 }
 
-input {
-  width: 100%;
-  padding: 6px 15px;
-  border: 1px solid #a8a8a8;
-  border-radius: 10px;
-}
-
 .todo-input button {
   margin-left: 10px;
 }
@@ -132,9 +71,30 @@ input {
   display: flex;
   align-items: center;
   justify-content: end;
-  padding: 30px 0 5px;
+  padding: 25px 0 5px;
 }
 
 .todo-search-wrapper input {
-  width: 30%;
+  width: 35%;
+}
+
+.action-cell {
+  width: 185px;
+}
+
+.table-fixed-header {
+  overflow-y: auto;
+  max-height: calc(70vh - 217px);
+}
+
+.table-fixed-header thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: white;
+}
+
+.no-records {
+  font-size: 14px;
+  color: #a8a8a8;
 }

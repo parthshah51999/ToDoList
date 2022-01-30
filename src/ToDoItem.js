@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
 
 export default class ToDoItem extends React.Component {
   removeItem(id) {
@@ -6,41 +7,94 @@ export default class ToDoItem extends React.Component {
     return removeItem(id);
   }
 
-  editItem(id) {
+  editItem(id, action) {
     const { editItem } = this.props;
-    return editItem(id);
+    return editItem(id, action);
   }
 
   render() {
-    const { searchResults } = this.props;
+    const { searchResults, onEditChange, textMap } = this.props;
+
     return (
-      this.props.searchResults.length > 0 ?
-        <div className="Table">
-          <div className="CellHeadings taskcol">Tasks</div>
-          <div className="CellHeadings">Actions</div>
-          {
-            searchResults.map((item, i) => {
+      <div className="table-fixed-header">
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col" className="col-sm-1">
+                #
+              </th>
+              <th scope="col">Tasks</th>
+              <th scope="col" className="action-cell">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {searchResults.map((item) => {
               return (
-                <div key={i} className="Row">
-                  <div className="Cell taskcol"><p>{item}</p></div>
-                  <div className="Cell">
+                <tr key={item.id}>
+                  <th scope="row">{item.id}</th>
+                  <td>
+                    {item.toUpdate ? (
+                      <input
+                        className="input"
+                        type="text"
+                        value={textMap[item.id]}
+                        onChange={onEditChange.bind(this, item.id)}
+                      />
+                    ) : (
+                      item.text
+                    )}
+                  </td>
+                  <td>
                     <button
-                      onClick={this.removeItem.bind(this, i)}
+                      onClick={this.editItem.bind(
+                        this,
+                        item.id,
+                        item.toUpdate ? "Done" : "Edit"
+                      )}
                       type="button"
-                      className="btn btn-primary">Remove
+                      className="btn btn-primary"
+                    >
+                      {item.toUpdate ? "Done" : "Edit"}
                     </button>
                     <button
-                      onClick={this.editItem.bind(this, i)}
+                      onClick={this.removeItem.bind(this, item.id)}
                       type="button"
-                      className="btn btn-primary">Edit
+                      className="btn btn-danger ml-2"
+                    >
+                      Remove
                     </button>
-                  </div>
-                </div>
+                  </td>
+                </tr>
               );
-            })
-          }
-        </div>
-      : <div></div>
+            })}
+            {searchResults.length === 0 ? (
+              <tr>
+                <th scope="row" />
+                <td className="no-records">No Records Found</td>
+                <td />
+              </tr>
+            ) : null}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }
+
+ToDoItem.propTypes = {
+  searchResults: PropTypes.array,
+  textMap: PropTypes.object,
+  removeItem: PropTypes.func.isRequired,
+  editItem: PropTypes.func.isRequired,
+  onEditChange: PropTypes.func.isRequired,
+};
+
+ToDoItem.defaultProps = {
+  searchResults: [],
+  textMap: {},
+  removeItem: () => {},
+  editItem: () => {},
+  onEditChange: () => {},
+};
