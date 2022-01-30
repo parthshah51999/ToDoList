@@ -1,31 +1,32 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import ToDoItem from './ToDoItem';
-import SearchBar from './SearchBar';
-import './css/style'
+import React from "react";
+import PropTypes from "prop-types";
+import ToDoItem from "./ToDoItem";
+import SearchBar from "./SearchBar";
+import "./css/style";
 
 class ToDoList extends React.Component {
   constructor() {
-      super(); // it calls react Component constructor.
-      this.state = { // state is a plain js object..init only in constructor
-        items: [],
-        value: '',
-        isUpdate: false,
-        id: Math.random(),
-        searchValue: '',
-        searchResults: [],
-      };
-      this.addItem = this.addItem.bind(this);
-      this.removeItem = this.removeItem.bind(this);
-      this.editItem = this.editItem.bind(this);
-      this.onChangeInputFunction = this.onChangeInputFunction.bind(this);
-      this.onChangeSearchFunction = this.onChangeSearchFunction.bind(this);
+    super(); // it calls react Component constructor.
+    this.state = {
+      // state is a plain js object..init only in constructor
+      items: [],
+      value: "",
+      isUpdate: false,
+      id: Math.random(),
+      searchValue: "",
+      searchResults: [],
+    };
+    this.addItem = this.addItem.bind(this);
+    this.removeItem = this.removeItem.bind(this);
+    this.editItem = this.editItem.bind(this);
+    this.onChangeInputFunction = this.onChangeInputFunction.bind(this);
+    this.onChangeSearchFunction = this.onChangeSearchFunction.bind(this);
   }
 
   editItem(id) {
     this.setState({
       isUpdate: true,
-      id
+      id,
     });
   }
 
@@ -33,8 +34,8 @@ class ToDoList extends React.Component {
     let { items, searchResults } = this.state; // object destructring
     let isCheck = false;
     const { value, isUpdate, id } = this.state;
-    if (value === '') {
-      return alert('Please enter the to do task.')
+    if (value === "") {
+      return alert("Please enter the to do task.");
     }
     if (isUpdate) {
       items = items.map((searchValue, i) => {
@@ -53,16 +54,16 @@ class ToDoList extends React.Component {
     this.setState({
       searchResults,
       items,
-      value: '',
+      value: "",
       isUpdate: false,
-      id: 9999
+      id: 9999,
     });
   }
 
   removeItem(id) {
     let isCheck = false;
     let newItems = this.state.items.filter((item, i) => {
-      if(item === this.state.searchResults[id] && !isCheck) {
+      if (item === this.state.searchResults[id] && !isCheck) {
         isCheck = true;
       } else {
         return item;
@@ -76,59 +77,68 @@ class ToDoList extends React.Component {
   }
 
   doRenderAddOrUpdateButton() {
-    let buttonText = 'Add';
-    if (this.state.isUpdate) { buttonText = 'Edit'; }
+    let buttonText = "Add";
+    if (this.state.isUpdate) {
+      buttonText = "Edit";
+    }
     return (
-        <button
-          onClick={this.addItem}
-          type="button"
-          className={this.state.isUpdate ? "btn btn-danger" : "btn btn-primary"}>{buttonText}
-        </button>
+      <button
+        onClick={this.addItem}
+        type="button"
+        className={this.state.isUpdate ? "btn btn-danger" : "btn btn-primary"}
+      >
+        {`${buttonText} Task`}
+      </button>
     );
   }
 
   onChangeInputFunction() {
-    return e => this.setState({ value: e.target.value });
+    return (e) => this.setState({ value: e.target.value });
   }
 
   onChangeSearchFunction() {
-      return e => {
-        let searchResults = this.state.items.filter((value, i) => value.indexOf(e.target.value) > -1);
-        this.setState(
-          {
-            searchValue: e.target.value,
-            searchResults: searchResults
-        }
-      )
+    return (e) => {
+      let searchResults = this.state.items.filter(
+        (value, i) => value.indexOf(e.target.value) > -1
+      );
+      this.setState({
+        searchValue: e.target.value,
+        searchResults: searchResults,
+      });
     };
   }
 
-  render() { // render is a react component method.
+  render() {
+    // render is a react component method.
     return (
-      <div className="toDoWrapper">
-        <h1 className="display-4">To Do Application</h1>
-        <div className="taskWrapper clearfix">
-          <div className="addTask clearfix">
-            <input
-              className="input"
-              type="text"
-              placeholder="Enter Task"
-              onChange={this.onChangeInputFunction()}
-              value={this.state.value}
-            />
-            {this.doRenderAddOrUpdateButton()}
+      <div className="wrapper">
+        <div className="todo-wrapper">
+          <h3 className="todo-header">To Do Application</h3>
+          <div className="todo-body">
+            <div className="todo-input">
+              <input
+                className="input"
+                type="text"
+                placeholder="Enter Task"
+                onChange={this.onChangeInputFunction()}
+                value={this.state.value}
+              />
+              {this.doRenderAddOrUpdateButton()}
+            </div>
+            <div className="todo-grid">
+              <SearchBar
+                taskItems={this.state.items}
+                searchValue={this.state.searchValue}
+                onChangeSearchFunction={this.onChangeSearchFunction}
+              />
+            </div>
           </div>
-          <SearchBar
-            taskItems={this.state.items}
-            searchValue={this.state.searchValue}
-            onChangeSearchFunction={this.onChangeSearchFunction}
+          <ToDoItem
+            searchResults={this.state.searchResults}
+            removeItem={this.removeItem}
+            editItem={this.editItem}
           />
         </div>
-        <ToDoItem
-          searchResults={this.state.searchResults}
-          removeItem={this.removeItem}
-          editItem={this.editItem}
-        />
       </div>
     );
   }
@@ -154,7 +164,7 @@ SearchBar.propTypes = {
 
 SearchBar.defaultProps = {
   taskItems: [],
-  searchValue: '',
+  searchValue: "",
   onChangeSearchFunction: {},
 };
 

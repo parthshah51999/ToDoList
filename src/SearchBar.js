@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default class SearchBar extends React.Component {
   onChangeSearchFunction() {
@@ -6,16 +6,17 @@ export default class SearchBar extends React.Component {
   }
 
   render() {
-    return (
-      this.props.taskItems.length > 0
-        ? <input
-          className="searchText"
+    return this.props.taskItems.length > 0 ? (
+      <div className="todo-search-wrapper">
+        <input
           type="text"
           placeholder="Search..."
           onChange={this.onChangeSearchFunction()}
           value={this.props.searchValue}
         />
-        : <div />
+      </div>
+    ) : (
+      <div />
     );
   }
 }
